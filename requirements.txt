@@ -1,0 +1,7 @@
+ollama
+langchain
+langchain_community
+langchain-chroma
+nbformat>=4.2.0
+openpyxl
+python-docx
