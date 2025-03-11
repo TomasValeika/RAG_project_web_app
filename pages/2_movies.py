@@ -8,10 +8,17 @@ import os
 import glob
 from docx import Document
 
-from func.read_data_from_file import read_csv, read_excel, read_word
+from func.read_data_from_file import (
+    read_csv,
+    read_excel,
+    read_word,
+    get_recomendation_id,
+)
 
 
-st.set_page_config(page_title="Movie Recommendation", page_icon=":movie_camera:")
+st.set_page_config(
+    page_title="Movie Recommendation", page_icon=":movie_camera:", layout="wide"
+)
 
 st.title("Film Recommendation With AI :robot_face:")
 
@@ -110,72 +117,5 @@ if st.session_state.db_movies is None:
 query = st.text_input("What kind of film do you want to watch?")
 if query and st.session_state.db_movies is not None:
     answer = st.session_state.db_movies.similarity_search(query=query, k=3)
-    st.write(answer)
 
-
-def get_recomendation_id(answer) -> pd.DataFrame:
-    temp_folder = r"data/temp_files/"
-    lst_file = glob.glob(os.path.join(temp_folder, "*"))
-    temp_file = []
-    for i in lst_file:
-        if i.endswith("txt"):
-            continue
-        else:
-            temp_file.append(i.split("\\")[-1])
-
-    id_lst = []
-    if temp_file[0].endsendswith(".csv"):
-        df = pd.read_csv(f"data/temp_files/{temp_file[0]}")
-        for id in range(0, len(answer)):
-            id_lst.append(int(answer[id].page_content.split(" ")[0].strip('"')))
-
-        df = df.loc[df["id"].isin(id_lst)]
-
-        return df
-
-    elif temp_file[0].endsendswith(".xlsx"):
-        df = pd.read_excel(f"data/temp_files/{temp_file[0]}")
-        for id in range(0, len(answer)):
-            id_lst.append(int(answer[id].page_content.split(" ")[0].strip('"')))
-
-        df = df.loc[df["id"].isin(id_lst)]
-
-        return df
-
-    else:
-        document = Document(f"data/temp_files/{temp_file[0]}")
-        table = document.tables[0]
-        df = pd.DataFrame([[cell.text for cell in row.cells] for row in table.rows])
-        df = df.rename(columns=df.iloc[0]).drop(df.index[0]).reset_index(drop=True)
-
-        df = df.loc[df["id"].isin(id_lst)]
-
-        return df
-
-    st.write(get_recomendation_id(answer=answer))
-
-
-# if uploaded_file is None:
-#     embeddings_local = OllamaEmbeddings(model="nomic-embed-text")
-#     vector_db = FAISS.load_local(
-#         "movies_db", embeddings_local, allow_dangerous_deserialization=True
-#     )
-
-#     query = st.text_input("Parasyk ka nors")
-
-#     def get_recommendation_id(query: st) -> pd.DataFrame:
-#         answer = vector_db.similarity_search(query=query, k=3)
-#         df = pd.read_csv("data/temp_files/movies_final.csv")
-#         id_lst = []
-#         for id in range(0, len(answer)):
-#             id_lst.append(int(answer[id].page_content.split(" ")[0].strip('"')))
-
-#         df = df.loc[df["id"].isin(id_lst)]
-
-#         return df
-
-#     st.write(get_recommendation_id(query))
-
-#     # st.write(int(answer[0].page_content.split(" ")[0].strip().replace('"', "")))
-#     # snowflake-arctic-embed2 <- atsiustas
-#     # st.write(db_movies)
+    st.dataframe(get_recomendation_id(answer))

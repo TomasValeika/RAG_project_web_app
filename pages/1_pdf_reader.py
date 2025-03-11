@@ -15,7 +15,7 @@ upload_file = st.file_uploader("Upload PDF Document", type="pdf")
 
 # get data from file
 if upload_file is not None:
-    temp_file = "./temp.pdf"
+    temp_file = "data/temp_pdf/temp.pdf"
     with open(temp_file, "wb") as file:
         file.write(upload_file.getvalue())
         file_name = upload_file.name
