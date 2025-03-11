@@ -1,4 +1,4 @@
-# **Projekto tkslas**
+# **Projekto tikslas**
 Šio projekto tikslas yra naudojant RAG (Retrieval-Augmented Generation) sukurti web aplikaciją kurioje klientas gali atlikti šiuos veiksmus:
 - Pateikęs PDF formato dokumentą aplikacijai, gali pateikti užklausas ir gauti atsakymus susijusius su pateiktu dokumentu.
 - Filmų rekomendavimo sistema. Joje klientas parašęs kokio tipo filmą jis nori pasižiūrėti, sistema jam parenka 3 filmus labiausiai atitnkančius pagal pateikta užklausą. 
