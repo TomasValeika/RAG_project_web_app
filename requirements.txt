@@ -1,7 +1,12 @@
-ollama
+streamlit
 langchain
-langchain_community
-langchain-chroma
+langchain-community
+langchain-ollama
+langchain-core
+plotly
 nbformat>=4.2.0
+pandas
 openpyxl
 python-docx
+pypdf
+faiss-cpu
